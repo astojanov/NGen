@@ -87,7 +87,7 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 
 libraryDependencies += "ch.ethz.acl" %% "scala-unsigned" % "0.1-SNAPSHOT"
 
-libraryDependencies += "ch.ethz.acl" %% "lms-intrinsics" % "0.0.3-SNAPSHOT"
+libraryDependencies += "ch.ethz.acl" %% "lms-intrinsics" % "0.0.5-SNAPSHOT"
 
 // ========================================================
 // = NGen Settings and Dependencies
