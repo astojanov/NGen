@@ -31,16 +31,24 @@ class BenchMMM extends Bench.ForkedTime {
   performance of "MMM" config (
     exec.minWarmupRuns -> 100,
     exec.maxWarmupRuns -> 100,
-    exec.independentSamples -> 1
+    exec.independentSamples -> 1,
+    exec.jvmflags -> List("-XX:-TieredCompilation", // ensure C2 is actually used
+                          "-XX:CompileThreshold=100" // the paper claims to set this
+    )
   ) in {
-    measure method "jMMM.blocked (JVM implementation)" in {
+    measure method "jMMM.fast (JVM implementation)" in {
       using(argsMMM) in {
-        case (a, b, c, size) => MMM.jMMM.blocked(a, b, c, size)
+        case (a, b, c, size) => MMM.jMMM.fast(a, b, c, size)
       }
     }
     measure method "nMMM.blocked (LMS generated)" in {
       using(argsMMM) in {
         case (a, b, c, size) => MMM.nMMM.blocked(a, b, c, size)
+      }
+    }
+    measure method "jMMM.blocked (JVM implementation)" in {
+      using(argsMMM) in {
+        case (a, b, c, size) => MMM.jMMM.blocked(a, b, c, size)
       }
     }
     measure method "jMMM.baseline (JVM implementation)" in {
