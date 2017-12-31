@@ -1,5 +1,7 @@
 package ch.ethz.acl.ngen.mmm;
 
+import java.util.Arrays;
+
 public class JMMM {
     //
     // Baseline implementation of a Matrix-Matrix-Multiplication
@@ -33,6 +35,30 @@ public class JMMM {
                     }
                 }
             }
+        }
+    }
+
+    public void fast(float[] a, float[] b, float[] c, int n) {
+        float[] bBuffer = new float[n];
+        float[] cBuffer = new float[n];
+        int in = 0;
+        for (int i = 0; i < n; ++i) {
+            int kn = 0;
+            for (int k = 0; k < n; ++k) {
+                float aik = a[in + k];
+                System.arraycopy(b, kn, bBuffer, 0, n);
+                saxpy(n, aik, bBuffer, cBuffer);
+                kn += n;
+            }
+            System.arraycopy(cBuffer, 0, c, in, n);
+            Arrays.fill(cBuffer, 0f);
+            in += n;
+        }
+    }
+
+    private void saxpy(int n, float aik, float[] b, float[] c) {
+        for (int i = 0; i < n; ++i) {
+            c[i] += aik * b[i];
         }
     }
 
